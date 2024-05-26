@@ -5,6 +5,7 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Put,
 } from '@nestjs/common';
 import { ItemDeliveryInput } from './delivery.model';
 import { DeliveryService } from './delivery.service';
@@ -41,7 +42,7 @@ export class DeliveryController {
     }
   }
 
-  @Post('/:deliveryId/status')
+  @Put('/:deliveryId/status')
   async setDeliveryStatus(
     @Param('deliveryId', ParseIntPipe) deliveryId: number,
     @Body('status') status: DeliveryStatus,

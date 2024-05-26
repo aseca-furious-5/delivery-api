@@ -1,14 +1,6 @@
-import { IsEnum, IsNotEmpty } from 'class-validator';
 import { DeliveryStatus } from '@prisma/client';
 
-export class DeliveryStatusUpdate {
-  @IsNotEmpty()
-  @IsEnum(DeliveryStatus)
-  status: DeliveryStatus;
-}
-export class Delivery {
+export class Order {
   id: number;
   status: DeliveryStatus;
-  orderId: number;
-  arrivalDate: Date;
 }
