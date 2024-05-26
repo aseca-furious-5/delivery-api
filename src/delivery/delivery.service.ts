@@ -3,7 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { DeliveryDTO, ItemPrepInput } from './delivery.model';
+import { DeliveryDTO, ItemDeliveryInput } from './delivery.model';
 import { DeliveryRepository } from './delivery.repository';
 import { DeliveryStatus } from '@prisma/client';
 
@@ -13,7 +13,7 @@ export class DeliveryService {
 
   async createDelivery(
     orderId: number,
-    items: ItemPrepInput[],
+    items: ItemDeliveryInput[],
   ): Promise<DeliveryDTO> {
     console.log(`Service : ${orderId}`);
     if (await this.preparationRepository.findDeliveryByOrderId(orderId)) {

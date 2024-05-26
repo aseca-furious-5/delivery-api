@@ -1,7 +1,7 @@
 import { IsInt, IsNotEmpty, IsString } from 'class-validator';
 import { DeliveryStatus } from '@prisma/client';
 
-export class ItemPrepInput {
+export class ItemDeliveryInput {
   @IsInt()
   @IsNotEmpty()
   itemId: number;

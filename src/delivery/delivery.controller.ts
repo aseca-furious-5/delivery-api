@@ -6,7 +6,7 @@ import {
   ParseIntPipe,
   Post,
 } from '@nestjs/common';
-import { ItemPrepInput } from './delivery.model';
+import { ItemDeliveryInput } from './delivery.model';
 import { DeliveryService } from './delivery.service';
 import { DeliveryStatus } from '@prisma/client';
 
@@ -22,7 +22,7 @@ export class DeliveryController {
   @Post('/:orderId')
   async createDelivery(
     @Param('orderId', ParseIntPipe) orderId: number,
-    @Body() items: ItemPrepInput[],
+    @Body() items: ItemDeliveryInput[],
   ) {
     console.log(`Controller : ${orderId}`);
     try {

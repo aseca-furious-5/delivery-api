@@ -1,6 +1,6 @@
 import { Inject } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { DeliveryDTO, ItemPrepInput } from './delivery.model';
+import { DeliveryDTO, ItemDeliveryInput } from './delivery.model';
 import { DeliveryStatus } from '@prisma/client';
 
 export class DeliveryRepository {
@@ -10,7 +10,7 @@ export class DeliveryRepository {
 
   async createDelivery(
     orderId: number,
-    items: ItemPrepInput[],
+    items: ItemDeliveryInput[],
   ): Promise<DeliveryDTO> {
     console.log(`Repository create : ${orderId}`);
     const delivery = await this.prismaService.delivery.create({
