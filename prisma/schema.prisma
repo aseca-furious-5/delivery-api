@@ -14,9 +14,26 @@ datasource db {
 }
 
 model Delivery {
-  id                  Int      @id @default(autoincrement())
-  orderId             Int
-  deliverySentDate    DateTime
-  deliveryArrivalDate DateTime
-  wasDelivered        Boolean
+  id                  Int            @id @default(autoincrement())
+  orderId             Int            @unique
+  items               Item[]
+  deliveryStatus      DeliveryStatus
+  deliveryArrivalDate DateTime?
+}
+
+model Item {
+  id       Int     @id @default(autoincrement())
+  itemId   Int
+  name     String
+  isReady  Boolean @default(false)
+  quantity Int
+
+  orderId Int
+  order   Delivery @relation(fields: [orderId], references: [id])
+}
+
+enum DeliveryStatus {
+  PENDING
+  ON_THE_WAY
+  DELIVERED
 }
