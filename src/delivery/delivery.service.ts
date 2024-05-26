@@ -6,10 +6,14 @@ import {
 import { DeliveryDTO, ItemDeliveryInput } from './delivery.model';
 import { DeliveryRepository } from './delivery.repository';
 import { DeliveryStatus } from '@prisma/client';
+import { TowerService } from '../tower/tower.service';
 
 @Injectable()
 export class DeliveryService {
-  constructor(private readonly preparationRepository: DeliveryRepository) {}
+  constructor(
+    private readonly preparationRepository: DeliveryRepository,
+    private readonly towerService: TowerService,
+  ) {}
 
   async createDelivery(
     orderId: number,
@@ -47,9 +51,10 @@ export class DeliveryService {
         id,
         new Date(),
       );
-      return delivery;
+    } else {
+      delivery = await this.preparationRepository.setDeliveryStatus(id, status);
     }
-    delivery = await this.preparationRepository.setDeliveryStatus(id, status);
+    await this.towerService.updateStatus(delivery.orderId, status);
     return delivery;
   }
 }

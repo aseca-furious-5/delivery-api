@@ -3,7 +3,7 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { Delivery } from './tower.model';
+import { Order } from './tower.model';
 import { ConfigService } from '@nestjs/config';
 import { HttpService } from '@nestjs/axios';
 import { catchError, firstValueFrom } from 'rxjs';
@@ -25,21 +25,18 @@ export class TowerService {
     return Object.values(DeliveryStatus);
   }
 
-  async updateStatus(
-    deliveryId: number,
-    status: DeliveryStatus,
-  ): Promise<Delivery> {
+  async updateStatus(orderId: number, status: DeliveryStatus): Promise<Order> {
     const response = await firstValueFrom(
       this.httpService
-        .put<Delivery>(`${this.controlTowerUrl}/delivery/${deliveryId}`, {
+        .put<Order>(`${this.controlTowerUrl}/order/${orderId}`, {
           status,
         })
         .pipe(
           catchError((error: AxiosError) => {
             if (error.response?.status === 404) {
-              throw new NotFoundException(`Delivery ${deliveryId} not found`);
+              throw new NotFoundException(`Order ${orderId} not found`);
             }
-            throw new InternalServerErrorException("Can't get delivery tower");
+            throw new InternalServerErrorException("Can't get order tower");
           }),
         ),
     );
@@ -47,20 +44,19 @@ export class TowerService {
     return response.data;
   }
 
-  async getStatusById(deliveryId: number): Promise<Delivery> {
+  async getStatusById(orderId: number): Promise<Order> {
     const response = await firstValueFrom(
       this.httpService
-        .get<Delivery>(`${this.controlTowerUrl}/delivery/${deliveryId}`)
+        .get<Order>(`${this.controlTowerUrl}/order/${orderId}`)
         .pipe(
           catchError((error: AxiosError) => {
             if (error.response?.status === 404) {
-              throw new NotFoundException(`Delivery ${deliveryId} not found`);
+              throw new NotFoundException(`Order ${orderId} not found`);
             }
-            throw new InternalServerErrorException("Can't get delivery tower");
+            throw new InternalServerErrorException("Can't get order tower");
           }),
         ),
     );
-
     return response.data;
   }
 }
